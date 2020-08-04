@@ -7,15 +7,17 @@
 #include<chrono>
 #include<string>
 
+constexpr uint8_t SEND_DATA = 0xFF;
+
 int main(){
     int sock;
-    struct sockaddr_in addr;
+    sockaddr_in addr;
 
     sock = socket(AF_INET, SOCK_DGRAM, 0);
 
     addr.sin_family = AF_INET;
     addr.sin_port = htons(12345);
-    addr.sin_addr.s_addr = inet_addr("172.16.93.91");
+    addr.sin_addr.s_addr = inet_addr("172.16.82.146");
 
     std::chrono::system_clock::time_point start, end;
 
@@ -25,7 +27,7 @@ int main(){
         while(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now()-start).count()<20){};
 
 
-        std::string s = std::to_string(i);
+        std::string s = std::to_string(SEND_DATA);
         const char* msg = s.data();
 
         sendto(sock, msg, 5, 0, (struct sockaddr *)&addr, sizeof(addr));
